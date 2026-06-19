@@ -57,11 +57,11 @@ sections.forEach(s => observer.observe(s));
 
 // ── Header shadow on scroll ───────────────────────────────────
 const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  header.style.boxShadow = window.scrollY > 10
-    ? '0 2px 16px rgba(180, 60, 100, 0.12)'
-    : 'none';
-}, { passive: true });
+function syncHeader() {
+  header.classList.toggle('scrolled', window.scrollY > 40);
+}
+syncHeader();
+window.addEventListener('scroll', syncHeader, { passive: true });
 
 
 // ── Simulated audio player ────────────────────────────────────
