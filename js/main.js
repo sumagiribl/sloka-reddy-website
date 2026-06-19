@@ -2,6 +2,75 @@
    SLOKA REDDY — Main JS
    ============================================================ */
 
+// ── Hydrate page from CONFIG (defined in config.js) ──────────
+function hydrateFromConfig() {
+  // Simple text/html fields via data-config attribute
+  document.querySelectorAll('[data-config]').forEach(el => {
+    const keys = el.dataset.config.split('.');
+    const value = keys.reduce((obj, k) => obj?.[k], CONFIG);
+    if (value !== undefined) el.innerHTML = value;
+  });
+
+  // Social links (appear in mobile menu, footer, videos CTA)
+  document.querySelectorAll('[data-social]').forEach(el => {
+    const url = CONFIG.social[el.dataset.social];
+    if (url) el.href = url;
+  });
+
+  // Streaming buttons
+  document.querySelectorAll('[data-stream]').forEach(el => {
+    const url = CONFIG.release.streaming[el.dataset.stream];
+    if (url) el.href = url;
+  });
+
+  // Album art
+  const albumImg = document.getElementById('albumArtImg');
+  if (albumImg) albumImg.src = CONFIG.release.albumArt;
+
+  // Album placeholder title (split on spaces for line breaks)
+  const words = CONFIG.release.title.split(' ');
+  const mid   = Math.ceil(words.length / 2);
+  const ph    = document.getElementById('albumPlaceholderTitle');
+  if (ph) ph.innerHTML = `${words.slice(0, mid).join(' ')}<br>${words.slice(mid).join(' ')}`;
+
+  // About photo & bio
+  const aboutImg = document.getElementById('aboutImg');
+  if (aboutImg) aboutImg.src = CONFIG.about.photo;
+  const aboutBio = document.getElementById('aboutBio');
+  if (aboutBio) aboutBio.innerHTML = CONFIG.about.bio;
+
+  // Videos grid
+  const grid = document.getElementById('videosGrid');
+  if (grid) {
+    grid.innerHTML = CONFIG.videos.map(v => `
+      <div class="video-card">
+        <div class="video-thumb">
+          <img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'" />
+          <div class="video-thumb-placeholder"></div>
+          <a href="${v.url}" target="_blank" rel="noopener" class="video-play-btn" aria-label="Play ${v.title}">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><polygon points="4,2 16,9 4,16"/></svg>
+          </a>
+        </div>
+        <p class="video-label">${v.title}${v.subtitle ? `<br><span>${v.subtitle}</span>` : ''}</p>
+      </div>`).join('');
+  }
+
+  // EPK download link
+  const epkLink = document.getElementById('epkLink');
+  if (epkLink) epkLink.href = CONFIG.press.epk;
+
+  // Contact email
+  const emailLink = document.getElementById('contactEmail');
+  if (emailLink) emailLink.href = `mailto:${CONFIG.artist.email}`;
+
+  // Player duration
+  const durEl = document.querySelector('.player-duration');
+  if (durEl) durEl.textContent = CONFIG.release.durationLabel;
+}
+
+hydrateFromConfig();
+
+
 // ── Mobile menu ──────────────────────────────────────────────
 const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -73,7 +142,7 @@ const progressThumb = document.getElementById('progressThumb');
 const progressWrap = document.getElementById('progressWrap');
 const currentTimeEl = document.getElementById('currentTime');
 
-const TRACK_DURATION = 204; // 3:24 in seconds
+const TRACK_DURATION = CONFIG.release.durationSeconds;
 let playing  = false;
 let progress = 0;        // 0–100
 let ticker   = null;
