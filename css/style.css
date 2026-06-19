@@ -285,6 +285,7 @@ ul { list-style: none; }
 .hero-image {
   position: relative;
   overflow: hidden;
+  z-index: 2; /* sits above ::before gradient so photo is never tinted */
 }
 .hero-photo {
   position: absolute;
@@ -292,7 +293,7 @@ ul { list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: 40% top; /* 40% from left centers on her face */
   z-index: 1;
 }
 .hero-photo-placeholder {
@@ -302,7 +303,7 @@ ul { list-style: none; }
   z-index: 0;
 }
 
-/* Gradient overlay so text is readable over the full-bleed photo */
+/* Gradient covers the LEFT column only, giving contrast for white text */
 .hero::before {
   content: '';
   position: absolute;
@@ -311,7 +312,7 @@ ul { list-style: none; }
     105deg,
     rgba(200, 72, 112, 0.72) 0%,
     rgba(200, 72, 112, 0.55) 38%,
-    transparent 65%
+    transparent 62%
   );
   z-index: 1;
   pointer-events: none;
@@ -538,7 +539,7 @@ ul { list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: 40% top;
   position: relative;
   z-index: 1;
 }
@@ -760,20 +761,27 @@ ul { list-style: none; }
   .hero-image {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: 1;
   }
+  /* On mobile the gradient sits on top of the photo to darken the bottom
+     so the text (z-index:3) remains readable over any photo content */
   .hero::before {
     background: linear-gradient(
       180deg,
-      transparent 0%,
-      rgba(200, 72, 112, 0.5) 40%,
-      rgba(180, 50, 90, 0.85) 75%,
-      rgba(160, 40, 75, 0.95) 100%
+      transparent 45%,
+      rgba(252, 232, 238, 0.7) 68%,
+      var(--pink-bg) 88%
     );
-    z-index: 1;
+    z-index: 2;
   }
   .hero-text { position: relative; min-height: 100svh; }
-  .hero-name { font-size: clamp(4rem, 16vw, 6rem); }
+  .hero-name {
+    font-size: clamp(4rem, 16vw, 6rem);
+    color: var(--pink-deep);
+    text-shadow: none;
+  }
+  .hero-tagline { color: var(--text-body); }
+  .scroll-indicator { color: var(--pink-mid); }
 
   /* About stacks */
   .about-grid { grid-template-columns: 1fr; gap: 36px; }
