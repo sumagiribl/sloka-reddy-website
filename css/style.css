@@ -4,12 +4,12 @@
 
 /* ── TOKENS ── */
 :root {
-  --pink-bg:      #fce8ee;
-  --pink-light:   #fad4e0;
-  --pink-mid:     #e8a0b8;
-  --pink-deep:    #c84870;
-  --pink-hover:   #a83860;
-  --pink-border:  #e0b0c0;
+  --pink-bg:      #faf3ee;   /* was #fce8ee — now cream */
+  --pink-light:   #f4e6e0;   /* was #fad4e0 — warm blush */
+  --pink-mid:     #cf9aa6;   /* was #e8a0b8 — muted rose */
+  --pink-deep:    #9e4a5e;   /* was #c84870 — dusty rose accent */
+  --pink-hover:   #843d4e;   /* was #a83860 — deeper rose */
+  --pink-border:  #e3d3cb;   /* was #e0b0c0 — warm neutral line */
   --white:        #ffffff;
   --text-dark:    #1a1a1a;
   --text-body:    #4a4a4a;
