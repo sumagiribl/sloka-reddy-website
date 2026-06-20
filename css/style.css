@@ -30,7 +30,6 @@
 
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-sans);
   background: var(--cream);
@@ -115,6 +114,8 @@ ul { list-style: none; }
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background 0.3s ease, border-color 0.3s ease;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 /* soft cinematic scrim so nav links stay legible over the hero photo */
 .header::before {
@@ -912,4 +913,72 @@ ul { list-style: none; }
 
   .press-inner { padding: 28px 24px; }
   .footer-social { gap: 14px; }
+}
+
+
+
+
+/* ============================================================
+   COOKIE CONSENT BANNER
+   ============================================================ */
+.consent-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  display: none;
+  background: var(--cream);
+  border-top: 1px solid var(--pink-border);
+  box-shadow: 0 -6px 28px rgba(43, 36, 33, 0.10);
+}
+.consent-banner.show {
+  display: block;
+  animation: consentUp 0.4s ease;
+}
+@keyframes consentUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.consent-inner {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.consent-text {
+  flex: 1;
+  min-width: 240px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+.consent-actions {
+  display: flex;
+  gap: 12px;
+}
+.consent-btn {
+  font-family: var(--font-label);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 11px 26px;
+  border-radius: 1px;
+  border: 1.5px solid var(--ink);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.consent-accept { background: var(--ink); color: var(--cream); }
+.consent-accept:hover { background: #3d322d; }
+.consent-decline { background: transparent; color: var(--ink); }
+.consent-decline:hover { background: var(--ink); color: var(--cream); }
+@media (max-width: 560px) {
+  .consent-inner { padding: 16px 0; }
+  .consent-actions { width: 100%; }
+  .consent-btn { flex: 1; text-align: center; }
 }

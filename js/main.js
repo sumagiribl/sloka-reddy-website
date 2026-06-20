@@ -117,6 +117,7 @@ const observer = new IntersectionObserver(entries => {
 sections.forEach(s => observer.observe(s));
 
 
+
 // ── Header shadow on scroll ───────────────────────────────────
 const header = document.getElementById('header');
 function syncHeader() {
@@ -220,7 +221,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const v = videos[active];
     stage.innerHTML = `
       <div class="vstage-facade">
-        <img class="vstage-thumb" src="${thumbUrl(v.id)}" alt="${escapeAttr(v.title)}" onerror="this.style.display='none'" />
+        <img class="vstage-thumb" src="${thumbUrl(v.id)}" alt="${escapeAttr(v.title)}" loading="lazy" decoding="async" onerror="this.style.display='none'" />
         <div class="vstage-placeholder"></div>
         <div class="vstage-shade"></div>
         <button class="vstage-play" aria-label="Play ${escapeAttr(v.title)}">
@@ -260,4 +261,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   document.getElementById('videoNext')?.addEventListener('click', () => go(active + 1));
 
   renderFacade();
+})();
+
+
+// ── Analytics + cookie consent (Google Consent Mode v2) ───────
+// GA only loads after the visitor accepts. Consent defaults are set to
+// 'denied' in <head>, so nothing tracks until then. Choice is remembered.
+(function () {
+  const ID = (CONFIG.analytics && CONFIG.analytics.ga4) ? CONFIG.analytics.ga4 : '';
+  if (!ID) return;                         // no Measurement ID -> no tracking, no banner
+
+  const KEY    = 'sloka-consent';
+  const banner = document.getElementById('consentBanner');
+  const gtag   = window.gtag || function () { (window.dataLayer = window.dataLayer || []).push(arguments); };
+
+  let gaLoaded = false;
+  function loadGA() {
+    if (gaLoaded) return;
+    gaLoaded = true;
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+    document.head.appendChild(s);
+    gtag('js', new Date());
+    gtag('config', ID);
+  }
+  function grant() {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+    loadGA();
+  }
+
+  const saved = localStorage.getItem(KEY);
+  if (saved === 'granted') {
+    grant();                               // returning visitor who opted in
+  } else if (saved === 'denied') {
+    /* stay denied, no banner */
+  } else if (banner) {
+    banner.classList.add('show');
+    document.getElementById('consentAccept')?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'granted');
+      banner.classList.remove('show');
+      grant();
+    });
+    document.getElementById('consentDecline')?.addEventListener('click', () => {
+      localStorage.setItem(KEY, 'denied');
+      banner.classList.remove('show');
+    });
+  }
 })();

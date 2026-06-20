@@ -8,6 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat:wght@300;400;500;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Faster hero paint -->
+  <link rel="preload" as="image" href="images/hero.jpeg" fetchpriority="high" />
+
+  <!-- Google Consent Mode v2 — default everything to denied until the visitor accepts -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+  </script>
 </head>
 <body>
 
@@ -66,7 +83,7 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="home">
-    <img src="images/hero.jpeg" alt="Sloka Reddy" class="hero-photo" />
+    <img src="images/hero.jpeg" alt="Sloka Reddy" class="hero-photo" fetchpriority="high" decoding="async" />
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-text">
       <div class="hero-eyebrow">
@@ -98,7 +115,7 @@
 
       <div class="player-card">
         <div class="player-album">
-          <img id="albumArtImg" alt="" onerror="this.style.display='none'" />
+          <img id="albumArtImg" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
           <div class="album-placeholder" aria-hidden="true">
             <span id="albumPlaceholderTitle"></span>
             <small data-config="release.artistName"></small>
@@ -152,7 +169,7 @@
   <section class="about section" id="about">
     <div class="container about-grid">
       <div class="about-image">
-        <img id="aboutImg" alt="Sloka Reddy" onerror="this.style.display='none'" />
+        <img id="aboutImg" alt="Sloka Reddy" loading="lazy" decoding="async" onerror="this.style.display='none'" />
         <div class="about-photo-placeholder" aria-hidden="true"></div>
       </div>
       <div class="about-content">
@@ -255,19 +272,18 @@
     </div>
   </footer>
 
+  <!-- ============ COOKIE CONSENT ============ -->
+  <div class="consent-banner" id="consentBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="consent-inner">
+      <p class="consent-text">This site uses analytics cookies to understand how visitors use it. You can accept or decline &mdash; declining keeps analytics off.</p>
+      <div class="consent-actions">
+        <button class="consent-btn consent-decline" id="consentDecline">Decline</button>
+        <button class="consent-btn consent-accept" id="consentAccept">Accept</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
-  <script>
-    if (CONFIG.analytics && CONFIG.analytics.ga4) {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.analytics.ga4;
-      document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', CONFIG.analytics.ga4);
-    }
-  </script>
 </body>
 </html>
