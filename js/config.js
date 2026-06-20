@@ -11,7 +11,7 @@ const CONFIG = {
     name:    'SLOKA REDDY',
     tagline: 'SINGER · SONGWRITER · PERFORMER',
     email:   'slokapinnapureddy@gmail.com',
-    copyright: '2024 Sloka Reddy. All rights reserved.',
+    copyright: `${new Date().getFullYear()} Sloka Reddy. All rights reserved.`,
   },
 
   /* ── Social links ────────────────────────────────────────── */
@@ -64,6 +64,15 @@ const CONFIG = {
       id:    'REPLACE_WITH_VIDEO_ID',
     },
   ],
+
+  /* ── Analytics ──────────────────────────────────────────────
+     Paste your GA4 Measurement ID (G-XXXXXXXXXX) below.
+     Get one free at analytics.google.com → create property.
+     Leave blank to disable tracking.
+     ──────────────────────────────────────────────────────────── */
+  analytics: {
+    ga4: '',
+  },
 
   /* ── Press & EPK ─────────────────────────────────────────── */
   press: {

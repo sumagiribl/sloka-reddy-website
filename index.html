@@ -257,5 +257,17 @@
 
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    if (CONFIG.analytics && CONFIG.analytics.ga4) {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.analytics.ga4;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', CONFIG.analytics.ga4);
+    }
+  </script>
 </body>
 </html>
