@@ -39,20 +39,13 @@ function hydrateFromConfig() {
   const aboutBio = document.getElementById('aboutBio');
   if (aboutBio) aboutBio.innerHTML = CONFIG.about.bio;
 
-  // Videos grid
-  const grid = document.getElementById('videosGrid');
-  if (grid) {
-    grid.innerHTML = CONFIG.videos.map(v => `
-      <div class="video-card">
-        <div class="video-thumb">
-          <img src="${v.thumb}" alt="${v.title}" onerror="this.style.display='none'" />
-          <div class="video-thumb-placeholder"></div>
-          <a href="${v.url}" target="_blank" rel="noopener" class="video-play-btn" aria-label="Play ${v.title}">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><polygon points="4,2 16,9 4,16"/></svg>
-          </a>
-        </div>
-        <p class="video-label">${v.title}${v.subtitle ? `<br><span>${v.subtitle}</span>` : ''}</p>
-      </div>`).join('');
+  // YouTube subscribe link (adds the one-click subscribe prompt)
+  const ytSub = document.getElementById('ytSubscribe');
+  if (ytSub && CONFIG.social.youtube) {
+    const base = CONFIG.social.youtube;
+    ytSub.href = base.includes('sub_confirmation')
+      ? base
+      : base + (base.includes('?') ? '&' : '?') + 'sub_confirmation=1';
   }
 
   // EPK download link
@@ -207,3 +200,64 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
   });
 });
+
+
+// ── Featured videos carousel ──────────────────────────────────
+(function () {
+  const stage = document.getElementById('videoStage');
+  if (!stage) return;
+
+  const videos = CONFIG.videos || [];
+  if (!videos.length) return;
+
+  let active = 0;
+
+  const escapeAttr = s => String(s || '').replace(/"/g, '&quot;');
+  const thumbUrl   = id => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+  // Render the click-to-play facade for the active video.
+  function renderFacade() {
+    const v = videos[active];
+    stage.innerHTML = `
+      <div class="vstage-facade">
+        <img class="vstage-thumb" src="${thumbUrl(v.id)}" alt="${escapeAttr(v.title)}" onerror="this.style.display='none'" />
+        <div class="vstage-placeholder"></div>
+        <div class="vstage-shade"></div>
+        <button class="vstage-play" aria-label="Play ${escapeAttr(v.title)}">
+          <span class="vstage-play-ring">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 21,12 5,21"/></svg>
+          </span>
+        </button>
+        <div class="vstage-caption">
+          <span class="vstage-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3 3 0 00-2.12-2.12C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.57A3 3 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3 3 0 002.12 2.12C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.57a3 3 0 002.12-2.12C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52v-7.04L15.86 12l-6.11 3.52z"/></svg>
+            YOUTUBE
+          </span>
+          <h3 class="vstage-title">${escapeAttr(v.title)}</h3>
+          ${v.subtitle ? `<p class="vstage-subtitle">${escapeAttr(v.subtitle)}</p>` : ''}
+        </div>
+      </div>`;
+    stage.querySelector('.vstage-play').addEventListener('click', playActive);
+  }
+
+  // Swap in the official YouTube embed. A user-initiated play through
+  // this player is what registers toward the public view count.
+  function playActive() {
+    const v = videos[active];
+    const src = `https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1`;
+    stage.innerHTML = `
+      <iframe class="vstage-iframe" src="${src}" title="${escapeAttr(v.title)}"
+        allow="accelerated-encoding; autoplay; encrypted-media; picture-in-picture; web-share"
+        allowfullscreen></iframe>`;
+  }
+
+  function go(i) {
+    active = (i + videos.length) % videos.length;
+    renderFacade();
+  }
+
+  document.getElementById('videoPrev')?.addEventListener('click', () => go(active - 1));
+  document.getElementById('videoNext')?.addEventListener('click', () => go(active + 1));
+
+  renderFacade();
+})();
