@@ -871,9 +871,10 @@ ul { list-style: none; }
   }
   .scroll-indicator { display: none; }
 
-  /* About stacks */
+  /* About stacks — keep the portrait aspect so her head isn't cropped */
   .about-grid { grid-template-columns: 1fr; gap: 36px; }
-  .about-image { aspect-ratio: 4/3; max-width: 400px; }
+  .about-image { aspect-ratio: 4/5; max-width: 340px; margin-inline: auto; }
+  .about-image img { object-position: 50% 22%; }
 
   /* Videos: arrows tuck inside the stage */
   .vcarousel-prev { left: 10px; }
