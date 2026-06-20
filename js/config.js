@@ -41,7 +41,7 @@ const CONFIG = {
 
   /* ── About ───────────────────────────────────────────────── */
   about: {
-    photo: 'images/Sloka hero option 3.jpeg',
+    photo: 'images/about_blend.png',
     bio: `Sloka Reddy is a teenage singer-songwriter from Minnesota. Singing since age four, she blends pop, R&amp;B, Bollywood, and contemporary influences into her music. Her cover songs on Instagram, YouTube, and TikTok have built a growing fanbase, and her debut original single <em>Shine Like Me</em> marks an exciting new chapter. Her goal is to create songs that inspire and connect with people around the world.`,
   },
 
