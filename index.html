@@ -110,10 +110,24 @@
   <section class="release section" id="music">
     <div class="container">
       <span class="section-label">LATEST RELEASE</span>
-      <h2 class="release-title" data-config="release.title"></h2>
-      <p class="release-out"    data-config="release.status"></p>
 
-      <div class="player-card">
+      <!-- PRE-SAVE STATE (shown before release day) -->
+      <div id="releasePresave" class="release-presave" style="display:none;">
+        <span class="presave-badge" id="presaveBadge"></span>
+        <h2 class="release-title" id="presaveHeading"></h2>
+        <p class="presave-subtext" id="presaveSubtext"></p>
+        <a id="presaveCta" class="presave-cta" href="#" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span id="presaveCtaLabel"></span>
+        </a>
+      </div>
+
+      <!-- LIVE STATE (shown on/after release day) -->
+      <div id="releaseLive">
+        <h2 class="release-title" data-config="release.title"></h2>
+        <p class="release-out"    data-config="release.status"></p>
+
+        <div class="player-card">
         <div class="player-album">
           <img id="albumArtImg" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" />
           <div class="album-placeholder" aria-hidden="true">
@@ -162,6 +176,7 @@
           YOUTUBE
         </a>
       </div>
+      </div><!-- /#releaseLive -->
     </div>
   </section>
 
@@ -245,17 +260,17 @@
           <a data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           </a>
-          <a data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.97a8.16 8.16 0 004.77 1.52V7.04a4.85 4.85 0 01-1-.35z"/></svg>
-          </a>
-          <a data-social="spotify" target="_blank" rel="noopener" aria-label="Spotify">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 14.36a.63.63 0 01-.86.21c-2.36-1.44-5.32-1.77-8.81-.97a.63.63 0 01-.28-1.22c3.82-.87 7.1-.5 9.74 1.12.3.18.4.57.21.86zm1.24-2.74a.78.78 0 01-1.07.26c-2.7-1.66-6.82-2.14-10.02-1.17a.78.78 0 01-.45-1.49c3.65-1.11 8.19-.57 11.28 1.33.37.22.49.71.26 1.07zm.11-2.84c-3.24-1.92-8.59-2.1-11.68-1.16a.94.94 0 01-.54-1.8c3.55-1.08 9.45-.87 13.17 1.34a.94.94 0 01-.95 1.62z"/></svg>
-          </a>
           <a data-social="youtube" target="_blank" rel="noopener" aria-label="YouTube">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3 3 0 00-2.12-2.12C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.57A3 3 0 00.5 6.19C0 8.04 0 12 0 12s0 3.96.5 5.81a3 3 0 002.12 2.12C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.57a3 3 0 002.12-2.12C24 15.96 24 12 24 12s0-3.96-.5-5.81zM9.75 15.52v-7.04L15.86 12l-6.11 3.52z"/></svg>
           </a>
-          <a data-social="appleMusic" target="_blank" rel="noopener" aria-label="Apple Music">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm2.5 5.5v7.69a2.5 2.5 0 11-1.5-2.29V9.5L9.5 10V17a2.5 2.5 0 11-1.5-2.29V8.5L14.5 7.5z"/></svg>
+          <a data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.97a8.16 8.16 0 004.77 1.52V7.04a4.85 4.85 0 01-1-.35z"/></svg>
+          </a>
+          <a data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          </a>
+          <a data-social="linktree" target="_blank" rel="noopener" aria-label="Linktree">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11.03 2h1.94v6.13l4.33-4.34 1.37 1.37-4.34 4.33H20v1.94h-5.67l4.34 4.33-1.37 1.37L12 12.4 6.7 17.13l-1.37-1.37 4.34-4.33H4V9.49h5.67L5.33 5.16 6.7 3.79l4.33 4.34V2zM11.03 16.9h1.94V22h-1.94v-5.1z"/></svg>
           </a>
         </div>
       </div>

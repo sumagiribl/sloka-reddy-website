@@ -59,6 +59,49 @@ function hydrateFromConfig() {
   // Player duration
   const durEl = document.querySelector('.player-duration');
   if (durEl) durEl.textContent = CONFIG.release.durationLabel;
+
+  // ── Release / pre-save toggle ──────────────────────────────
+  applyReleaseState();
+}
+
+// Decides whether to show the pre-save CTA or the live player.
+function applyReleaseState() {
+  const r = CONFIG.release || {};
+  const live    = document.getElementById('releaseLive');
+  const presave = document.getElementById('releasePresave');
+  if (!live || !presave) return;
+
+  // Resolve mode: explicit override, otherwise date-based.
+  let showLive;
+  if (r.mode === 'live')         showLive = true;
+  else if (r.mode === 'presave') showLive = false;
+  else {
+    // 'auto' — live once the local date reaches releaseDate
+    const today = new Date();
+    const release = r.releaseDate ? new Date(r.releaseDate + 'T00:00:00') : null;
+    showLive = release ? today >= release : true;
+  }
+
+  if (showLive) {
+    live.style.display = '';
+    presave.style.display = 'none';
+    return;
+  }
+
+  // Pre-save state
+  live.style.display = 'none';
+  presave.style.display = '';
+  const ps = r.preSave || {};
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.textContent = val; };
+  set('presaveBadge',   ps.badge);
+  set('presaveHeading', ps.heading);
+  set('presaveSubtext', ps.subtext);
+  set('presaveCtaLabel', ps.ctaLabel);
+  const cta = document.getElementById('presaveCta');
+  if (cta && ps.url) cta.href = ps.url;
+  // Hide the badge chip if no label provided
+  const badge = document.getElementById('presaveBadge');
+  if (badge && !ps.badge) badge.style.display = 'none';
 }
 
 hydrateFromConfig();
@@ -212,6 +255,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   if (!videos.length) return;
 
   let active = 0;
+  let countdownTimer = null;
 
   const escapeAttr = s => String(s || '').replace(/"/g, '&quot;');
   const thumbUrl   = id => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
@@ -219,6 +263,50 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   // Render the click-to-play facade for the active video.
   function renderFacade() {
     const v = videos[active];
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+
+    // Coming-soon: native premiere slide with a live countdown + pre-save CTA.
+    if (v.comingSoon) {
+      const rel = CONFIG.release || {};
+      const dateStr = v.releaseDate || rel.releaseDate;
+      const url     = v.presaveUrl || (rel.preSave && rel.preSave.url);
+      const target  = dateStr ? new Date(dateStr + 'T00:00:00') : null;
+      const pretty  = target ? target.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
+
+      stage.innerHTML = `
+        <div class="vstage-facade vstage-soon">
+          <span class="vsoon-kicker">Official Music Video</span>
+          <h3 class="vsoon-title">${escapeAttr(v.title)}</h3>
+          <p class="vsoon-premiere">Premieres ${escapeAttr(pretty)}</p>
+          <div class="vsoon-countdown" id="vsCountdown">
+            <div class="vsoon-unit"><span class="vsoon-num" data-u="d">--</span><span class="vsoon-lab">Days</span></div>
+            <div class="vsoon-unit"><span class="vsoon-num" data-u="h">--</span><span class="vsoon-lab">Hrs</span></div>
+            <div class="vsoon-unit"><span class="vsoon-num" data-u="m">--</span><span class="vsoon-lab">Min</span></div>
+            <div class="vsoon-unit"><span class="vsoon-num" data-u="s">--</span><span class="vsoon-lab">Sec</span></div>
+          </div>
+          ${url ? `<a class="vsoon-cta" href="${escapeAttr(url)}" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            Pre-save now
+          </a>` : ''}
+        </div>`;
+
+      if (target) {
+        const wrap = stage.querySelector('#vsCountdown');
+        const set = (u, val) => { const el = wrap.querySelector(`[data-u="${u}"]`); if (el) el.textContent = String(val).padStart(2, '0'); };
+        const tick = () => {
+          let diff = Math.max(0, target - new Date());
+          const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+          const h = Math.floor(diff / 3600000);  diff -= h * 3600000;
+          const m = Math.floor(diff / 60000);    diff -= m * 60000;
+          const s = Math.floor(diff / 1000);
+          set('d', d); set('h', h); set('m', m); set('s', s);
+        };
+        tick();
+        countdownTimer = setInterval(tick, 1000);
+      }
+      return;
+    }
+
     stage.innerHTML = `
       <div class="vstage-facade">
         <img class="vstage-thumb" src="${thumbUrl(v.id)}" alt="${escapeAttr(v.title)}" loading="lazy" decoding="async" onerror="this.style.display='none'" />

@@ -10,7 +10,7 @@ const CONFIG = {
   artist: {
     name:    'SLOKA REDDY',
     tagline: 'SINGER · SONGWRITER · PERFORMER',
-    email:   'slokapinnapureddy@gmail.com',
+    email:   'slokapreddy@gmail.com',
     copyright: `${new Date().getFullYear()} Sloka Reddy. All rights reserved.`,
   },
 
@@ -21,6 +21,8 @@ const CONFIG = {
     spotify:    'https://open.spotify.com/artist/6qt8eRlnpL6IKgFVHahoSp?si=NKRjLdn6TVScPHVKx1Jj-Q&nd=1&dlsi=4b6e9075453b4189',
     youtube:    'https://www.youtube.com/@Sloka_Reddy',
     appleMusic: 'https://music.apple.com/us/artist/sloka-reddy/6779884821',
+    facebook:   'https://www.facebook.com/share/1ELKQKo2Jr/?mibextid=wwXIfr',
+    linktree:   'https://linktr.ee/slokapinnapureddy?utm_source=linktree_profile_share',
   },
 
   /* ── Latest release ──────────────────────────────────────── */
@@ -32,6 +34,28 @@ const CONFIG = {
     artistName:      'Sloka Reddy',
     durationLabel:   '3:24',
     durationSeconds: 204,
+
+    /* ── Pre-save / release toggle ─────────────────────────────
+       Before the song is live, the section shows the DistroKid
+       hyperfollow (pre-save) call-to-action. On release day it
+       automatically flips to the live player + streaming links.
+
+       mode:
+         'auto'    → shows pre-save until releaseDate, then live
+         'presave' → force the pre-save CTA (preview it anytime)
+         'live'    → force the live player (preview it anytime)
+       releaseDate is the local date the song goes live (YYYY-MM-DD).
+       ──────────────────────────────────────────────────────── */
+    mode:        'auto',
+    releaseDate: '2026-07-16',
+    preSave: {
+      badge:    'Coming July 16',
+      heading:  'Pre-save “Shine Like Me”',
+      subtext:  'Be the first to hear it. Pre-save now and it lands in your library the moment it drops.',
+      ctaLabel: 'PRE-SAVE ON YOUR PLATFORM',
+      url:      'https://distrokid.com/hyperfollow/slokareddy/shine-like-me',
+    },
+
     streaming: {
       spotify:    'https://open.spotify.com/track/REPLACE_WITH_TRACK_ID',
       appleMusic: 'https://music.apple.com/REPLACE_WITH_TRACK_LINK',
@@ -51,17 +75,18 @@ const CONFIG = {
      ──────────────────────────────────────────────────────────── */
   videos: [
     {
-      title:    'Shine Like Me',
-      subtitle: '(Official Music Video)',
-      id:       'REPLACE_WITH_VIDEO_ID',
+      title:      'Shine Like Me',
+      subtitle:   '(Official Music Video)',
+      comingSoon: true,                    // native premiere slide with countdown + pre-save
+      id:         'REPLACE_WITH_VIDEO_ID',
     },
     {
-      title: 'Cover: Until I Found You',
-      id:    'REPLACE_WITH_VIDEO_ID',
+      title: 'Cover: Hate That I Made You Love Me',
+      id:    'FwSoyPuBL5c',
     },
     {
-      title: 'Behind The Scenes',
-      id:    'REPLACE_WITH_VIDEO_ID',
+      title: 'Cover: Human Nature by Michael Jackson',
+      id:    'NVrTMkO8MEg',
     },
   ],
 
