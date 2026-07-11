@@ -51,7 +51,7 @@ const CONFIG = {
     preSave: {
       badge:    'Coming July 16',
       heading:  'Pre-save “Shine Like Me”',
-      subtext:  'Be the first to hear it. Pre-save now and it lands in your library the moment it drops.',
+      subtext:  'Be the first to hear it. Pre-save now and it lands in your library the moment it drops. Produced by Grammy-nominated producer Roy Hamilton III.',
       ctaLabel: 'PRE-SAVE ON YOUR PLATFORM',
       url:      'https://distrokid.com/hyperfollow/slokareddy/shine-like-me',
     },
@@ -66,7 +66,7 @@ const CONFIG = {
   /* ── About ───────────────────────────────────────────────── */
   about: {
     photo: 'images/about_blend.png',
-    bio: `Sloka Reddy is a teenage singer-songwriter from Minnesota. Singing since age four, she blends pop, R&amp;B, Bollywood, and contemporary influences into her music. Her cover songs on Instagram, YouTube, and TikTok have built a growing fanbase, and her debut original single <em>Shine Like Me</em> marks an exciting new chapter. Her goal is to create songs that inspire and connect with people around the world.`,
+    bio: `Sloka Reddy is a 15-year-old singer-songwriter from Minnesota. Singing since age four, she has performed at the Minnesota State Fair and local showcases across the Twin Cities. She trains under S.P. Shailaja, an award-winning Indian cinema playback singer with more than 5,000 film songs to her name.<br><br>Sloka blends pop, R&amp;B, Bollywood, and contemporary influences into her music. After sharing vocal covers on Instagram, YouTube, and TikTok, she built a following of more than 100,000 in just over a year. Her debut original single <em>Shine Like Me</em>, produced by multi-platinum, Grammy-nominated producer Roy Hamilton III (Michael Jackson, Britney Spears, *NSYNC), marks an exciting new chapter. Her goal is to create songs that inspire and connect with people around the world.`,
   },
 
   /* ── Featured videos ─────────────────────────────────────────
