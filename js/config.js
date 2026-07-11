@@ -101,8 +101,30 @@ const CONFIG = {
 
   /* ── Press & EPK ─────────────────────────────────────────── */
   press: {
-    epk:         'images/Sloka-Reddy-EPK.pdf',
+    epk:         'images/Sloka-Reddy-EPK-v1.pdf',
     description: 'For press inquiries, interviews, or booking,\nplease download my EPK.',
+
+    /* As Featured In — citation cards. `link` opens the live article;
+       `images` (no link) opens an archival clipping in a lightbox. */
+    featured: [
+      {
+        outlet:    'Pioneer Press',
+        meta:      'TwinCities.com · July 2017',
+        headline:  'Minnesota’s got talent',
+        quote:     'Featured among the young performers who auditioned for a spot on the Minnesota State Fair amateur talent show stage.',
+        link:      'http://www.twincities.com/2017/07/29/local-talent-auditions-at-leinie-lodge-at-the-minnesota-state-fair/',
+        linkLabel: 'Read article',
+      },
+      {
+        outlet:    'Woodbury Bulletin',
+        meta:      'Print edition · August 12, 2015',
+        headline:  'Sloka & the Snowgirl',
+        quote:     'Woodbury 4-year-old advances to Minnesota State Fair talent show.',
+        images:    ['images/press-woodbury-article.jpg', 'images/press-woodbury-front.jpg'],
+        linkLabel: 'View clipping',
+        archived:  true,
+      },
+    ],
   },
 
 };

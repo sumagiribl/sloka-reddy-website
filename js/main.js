@@ -52,6 +52,9 @@ function hydrateFromConfig() {
   const epkLink = document.getElementById('epkLink');
   if (epkLink) epkLink.href = CONFIG.press.epk;
 
+  // As Featured In — citation cards
+  renderPressCards();
+
   // Contact email
   const emailLink = document.getElementById('contactEmail');
   if (emailLink) emailLink.href = `mailto:${CONFIG.artist.email}`;
@@ -63,6 +66,69 @@ function hydrateFromConfig() {
   // ── Release / pre-save toggle ──────────────────────────────
   applyReleaseState();
 }
+
+// ── As Featured In — citation cards + clipping lightbox ─────
+function renderPressCards() {
+  const wrap = document.getElementById('pressCards');
+  const items = (CONFIG.press && CONFIG.press.featured) || [];
+  if (!wrap || !items.length) return;
+  const esc = s => String(s || '').replace(/"/g, '&quot;');
+
+  wrap.innerHTML = items.map((p, i) => {
+    const isLink = !!p.link;
+    const tag = isLink ? 'a' : 'button';
+    const attrs = isLink
+      ? `href="${esc(p.link)}" target="_blank" rel="noopener"`
+      : `type="button" data-clip="${i}"`;
+    const arrow = isLink
+      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>`
+      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M14 10l7-7M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5"/></svg>`;
+    return `
+      <${tag} class="pcard" ${attrs}>
+        <div class="pcard-head">
+          <span class="pcard-outlet">${esc(p.outlet)}</span>
+          ${p.archived ? '<span class="pcard-archived">Archived</span>' : ''}
+        </div>
+        <span class="pcard-meta">${esc(p.meta)}</span>
+        <h4 class="pcard-headline">${esc(p.headline)}</h4>
+        <p class="pcard-quote">${esc(p.quote)}</p>
+        <span class="pcard-cta">${esc(p.linkLabel)} ${arrow}</span>
+      </${tag}>`;
+  }).join('');
+
+  wrap.querySelectorAll('[data-clip]').forEach(btn => {
+    btn.addEventListener('click', () => openLightbox(items[+btn.dataset.clip]));
+  });
+}
+
+function openLightbox(item) {
+  const box = document.getElementById('lightbox');
+  const stage = document.getElementById('lightboxStage');
+  const cap = document.getElementById('lightboxCaption');
+  if (!box || !stage) return;
+  const imgs = item.images || [];
+  stage.innerHTML = imgs.map(src =>
+    `<img src="${src}" alt="${String(item.outlet || '').replace(/"/g,'&quot;')} clipping" loading="lazy" />`
+  ).join('');
+  if (cap) cap.textContent = `${item.outlet} · ${item.meta}`;
+  box.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const box = document.getElementById('lightbox');
+  if (!box) return;
+  box.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const box = document.getElementById('lightbox');
+  const btn = document.getElementById('lightboxClose');
+  if (btn) btn.addEventListener('click', closeLightbox);
+  if (box) box.addEventListener('click', e => { if (e.target === box) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+});
 
 // Decides whether to show the pre-save CTA or the live player.
 function applyReleaseState() {
@@ -264,6 +330,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   function renderFacade() {
     const v = videos[active];
     if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    stage.classList.toggle('has-soon', !!v.comingSoon);
 
     // Coming-soon: native premiere slide with a live countdown + pre-save CTA.
     if (v.comingSoon) {
@@ -275,7 +342,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
       stage.innerHTML = `
         <div class="vstage-facade vstage-soon">
-          <span class="vsoon-kicker">Official Music Video</span>
+          <span class="vsoon-kicker">Official Lyric Video</span>
           <h3 class="vsoon-title">${escapeAttr(v.title)}</h3>
           <p class="vsoon-premiere">Premieres ${escapeAttr(pretty)}</p>
           <div class="vsoon-countdown" id="vsCountdown">
