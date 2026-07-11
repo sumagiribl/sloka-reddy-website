@@ -10,7 +10,7 @@ const CONFIG = {
   artist: {
     name:    'SLOKA REDDY',
     tagline: 'SINGER · SONGWRITER · PERFORMER',
-    email:   'slokapreddy@gmail.com',
+    email:   'contact@slokareddyofficial.com',
     copyright: `${new Date().getFullYear()} Sloka Reddy. All rights reserved.`,
   },
 
