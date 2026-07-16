@@ -23,6 +23,16 @@ function hydrateFromConfig() {
     if (url) el.href = url;
   });
 
+  // Spotify embed player (defaults to Spotify when someone lands via "Listen Now")
+  const spotifyFrame = document.getElementById('spotifyEmbed');
+  const spotifyUrl    = CONFIG.release.streaming.spotify;
+  if (spotifyFrame && spotifyUrl) {
+    try {
+      const path = new URL(spotifyUrl).pathname;
+      spotifyFrame.src = `https://open.spotify.com/embed${path}?utm_source=generator`;
+    } catch { /* invalid URL — leave iframe unset */ }
+  }
+
   // Album art
   const albumImg = document.getElementById('albumArtImg');
   if (albumImg) albumImg.src = CONFIG.release.albumArt;
@@ -278,7 +288,7 @@ function startTick() {
   }, 1000);
 }
 
-playBtn.addEventListener('click', () => {
+playBtn?.addEventListener('click', () => {
   playing = !playing;
   playIcon.style.display  = playing ? 'none' : '';
   pauseIcon.style.display = playing ? ''     : 'none';
@@ -292,7 +302,7 @@ playBtn.addEventListener('click', () => {
 });
 
 // Click on progress bar to seek
-progressWrap.addEventListener('click', e => {
+progressWrap?.addEventListener('click', e => {
   const rect = progressWrap.getBoundingClientRect();
   const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   progress   = pct * 100;

@@ -46,7 +46,7 @@ const CONFIG = {
          'live'    → force the live player (preview it anytime)
        releaseDate is the local date the song goes live (YYYY-MM-DD).
        ──────────────────────────────────────────────────────── */
-    mode:        'auto',
+    mode:        'live',
     releaseDate: '2026-07-16',
     preSave: {
       badge:    'Coming July 16',
@@ -57,9 +57,9 @@ const CONFIG = {
     },
 
     streaming: {
-      spotify:    'https://open.spotify.com/track/REPLACE_WITH_TRACK_ID',
-      appleMusic: 'https://music.apple.com/REPLACE_WITH_TRACK_LINK',
-      youtube:    'https://youtube.com/watch?v=REPLACE_WITH_VIDEO_ID',
+      spotify:    'https://open.spotify.com/album/4orAhHAwFslLeEw7G8Axsr',
+      appleMusic: 'https://music.apple.com/us/song/shine-like-me/6788676990',
+      youtube:    'https://www.youtube.com/watch?v=1VeXYRrW7o8',
     },
   },
 
@@ -77,8 +77,7 @@ const CONFIG = {
     {
       title:      'Shine Like Me',
       subtitle:   '(Official Music Video)',
-      comingSoon: true,                    // native premiere slide with countdown + pre-save
-      id:         'REPLACE_WITH_VIDEO_ID',
+      id:         '1VeXYRrW7o8',
     },
     {
       title: 'Cover: Hate That I Made You Love Me',
