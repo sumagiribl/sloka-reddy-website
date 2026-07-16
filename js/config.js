@@ -100,7 +100,7 @@ const CONFIG = {
 
   /* ── Press & EPK ─────────────────────────────────────────── */
   press: {
-    epk:         'images/Sloka-Reddy-EPK-v1a.pdf',
+    epk:         'images/Sloka-Reddy-EPK-v2.pdf',
     description: 'For press inquiries, interviews, or booking,\nplease download my EPK.',
 
     /* As Featured In — citation cards. `link` opens the live article;
