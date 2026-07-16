@@ -107,6 +107,14 @@ const CONFIG = {
        `images` (no link) opens an archival clipping in a lightbox. */
     featured: [
       {
+        outlet:    'The Singer’s Company',
+        meta:      'Feature Interview · 2026',
+        headline:  '“Shine Like Me” — In Conversation',
+        quote:     'Sloka sits down with Grammy-nominated producer Roy Hamilton III to talk about her debut single, her sound, and the story behind the song.',
+        link:      'https://www.thesingerscompany.com/the-singers-company-music-blog/sloka-reddy-shine-like-me-feature-interview',
+        linkLabel: 'Read the interview',
+      },
+      {
         outlet:    'Pioneer Press',
         meta:      'TwinCities.com · July 2017',
         headline:  'Minnesota’s got talent',
