@@ -22,7 +22,7 @@ const CONFIG = {
     youtube:    'https://www.youtube.com/@Sloka_Reddy',
     appleMusic: 'https://music.apple.com/us/artist/sloka-reddy/6779884821',
     facebook:   'https://www.facebook.com/share/1ELKQKo2Jr/?mibextid=wwXIfr',
-    linktree:   'https://linktr.ee/slokapinnapureddy?utm_source=linktree_profile_share',
+    linktree:   'https://listen.slokareddyofficial.com/shine-like-me',
   },
 
   /* ── Latest release ──────────────────────────────────────── */
